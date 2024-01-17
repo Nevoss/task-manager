@@ -1,5 +1,7 @@
 use serde::{Deserialize, Serialize};
 use std::error::Error;
+use std::fs::File;
+use std::io::BufReader;
 
 #[derive(Deserialize, Serialize, Debug)]
 pub enum TaskStatus {
@@ -22,26 +24,10 @@ pub struct DB {
 }
 
 pub fn read() -> Result<DB, Box<dyn Error>> {
-    let json = r#"
-        {
-            "data": [
-                {
-                    "id": 1,
-                    "title": "Create V2 transformer package.",
-                    "description": "This is some description for the transformer package.",
-                    "status": "Idle"
-                },
-                {
-                    "id": 2,
-                    "title": "Create V2 preview package.",
-                    "description": "This is some description for the preview package.",
-                    "status": "InProgress"
-                }
-            ]
-        }
-    "#;
+    let file = File::open(".db.json")?;
+    let reader = BufReader::new(file);
 
-    let db: DB = serde_json::from_str(json)?;
+    let db: DB = serde_json::from_reader(reader)?;
 
     Ok(db)
 }
