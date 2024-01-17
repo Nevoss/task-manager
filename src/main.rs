@@ -1,5 +1,6 @@
 use clap::Command;
 use std::process;
+use tasks::commands::ls;
 
 fn main() {
     let command = Command::new("Tasks")
@@ -14,7 +15,7 @@ fn main() {
     let matches = command.get_matches();
 
     let command_result = match matches.subcommand_name() {
-        Some("ls") => tasks::ls(),
+        Some("ls") => ls::run(),
         _ => Ok(()),
     };
 
