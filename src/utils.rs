@@ -1,6 +1,3 @@
-use crate::db::TaskStatus;
-use core::fmt;
-
 pub trait TableFormat {
     fn break_lines_by_word(&self, word_count: usize) -> String;
 }
@@ -20,17 +17,5 @@ impl TableFormat for String {
         }
 
         result.trim().to_string()
-    }
-}
-
-impl fmt::Display for TaskStatus {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        let text = match self {
-            TaskStatus::Idle => "idle",
-            TaskStatus::InProgress => "in-progress",
-            TaskStatus::Done => "done",
-        };
-
-        write!(f, "{}", text)
     }
 }
